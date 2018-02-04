@@ -1,27 +1,12 @@
 package yknet
 
 import (
+	"bufio"
 	"net"
 
+	c "../ykconstant"
 	"../yklog"
 )
-
-func handle_server(conn net.Conn) {
-
-	buf := make([]byte, 50)
-
-	defer conn.Close()
-
-	for {
-		n, err := conn.Read(buf)
-
-		if err != nil {
-			yklog.Logout("client closed!")
-			return
-		}
-		yklog.Logout("recv msg:%v", string(buf[0:n]))
-	}
-}
 
 func Create_server(addr string) {
 	//addr := "127.0.0.1:7056"
@@ -35,6 +20,11 @@ func Create_server(addr string) {
 		if err != nil {
 			yklog.Logout(err.Error())
 		}
-		go handle_server(conn)
+		Conn := &ykConnect{conn,
+			make(chan []byte, 2),
+			make(chan interface{}),
+			bufio.NewReaderSize(conn, c.Buf_Size),
+			bufio.NewWriterSize(conn, c.Buf_Size)}
+		go Conn.Handle()
 	}
 }

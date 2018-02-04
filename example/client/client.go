@@ -49,7 +49,7 @@ func create_client(addr string) {
 }
 
 func main() {
-	create_client("127.0.0.1:7056")
+	create_client("127.0.0.1:6018")
 
 	// close
 	c := make(chan os.Signal, 1)

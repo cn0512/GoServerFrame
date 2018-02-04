@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+//message define of chess_game, it`s a simple game
+
+package YKGameMsg;
+
+message LoginMsgReq
+{
+	uint32    uid = 1;   
+	string    Pwd= 2;  
+	string    CheckCode = 3;  
+	uint32	  Ret = 4;
+}
+
+message LoginMsgRsp
+{
+	uint32	  Ret = 1;
+	string    NickName= 2;  
+}
+
+message HeartBeatMsg
+{
+	bool	  HeartBeat = 1;	
+}
+
+message ReadyGame
+{
+	bool	  Ready= 1;	
+}
+
+message StPlayer
+{
+	int32 Seat = 1;
+	repeated int32 cards = 2;
+	
+}
+
+message GameBegin
+{
+	int32	Seat = 1;
+	repeated StPlayer players= 2;
+}
+
+message gameEnd
+{
+	int32	Winner = 1;
+	repeated StPlayer players= 2;
+}
+
+
+message playMsg
+{
+	StPlayer 	Players= 1;
+	int32		NextSeat = 2;
+	uint32   	Ret = 3;
+}
+
+message playErrMsg
+{
+	StPlayer Players= 1;
+	int32	ErrCode = 2;
+}
+
