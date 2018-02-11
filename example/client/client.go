@@ -8,14 +8,18 @@ import (
 	"os/signal"
 	"time"
 
+	cons "../../ykconstant"
 	"../../yklog"
+	//mq "../../ykmq"
+	ykmsg "../../ykmsg"
+	//yknet "../../yknet"
 )
 
 const (
 	C_SLEEP = 1000 * 1000 * 1000 * 5
 )
 
-func handle_client(conn net.Conn) {
+func send(conn net.Conn) {
 
 	defer conn.Close()
 	scanner := bufio.NewScanner(os.Stdin)
@@ -24,11 +28,54 @@ func handle_client(conn net.Conn) {
 		if line == "exit" {
 			os.Exit(0)
 		}
-		fmt.Println(line) // Println will add back the final '\n'
-		conn.Write([]byte(line))
+		fmt.Println("input=", line) // Println will add back the final '\n'
+
+		bufbody := []byte(line)
+		var msgHeader ykmsg.MsgHeader
+		var ykgob ykmsg.GobMsg
+		bufMsg, err := ykgob.Encode(&bufbody, nil)
+		msgHeader.MsgID = 1000
+		msgHeader.Uid = 9527
+		msgHeader.MsgLen = (int32)(len(bufMsg))
+		fmt.Println(msgHeader)
+		bufHeader := msgHeader.Get()
+		buf := append(bufHeader, bufMsg...)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		conn.Write(buf)
+		/*decode*/
+		fmt.Println(buf)
+		var msg []byte = make([]byte, len(bufMsg))
+		err = ykgob.Decode(bufMsg, &msg)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		fmt.Println(msg)
 	}
 	if err := scanner.Err(); err != nil {
 		fmt.Fprintln(os.Stderr, "reading standard input:", err)
+	}
+}
+
+func recv(conn net.Conn) {
+	for {
+		var buf []byte
+		len, err := conn.Read(buf)
+		if err != nil {
+			fmt.Println(err)
+			return
+		}
+		if len > 0 {
+			fmt.Println("recv=", buf)
+			var ykgob ykmsg.GobMsg
+			var msg ykmsg.Msg
+			ykgob.Decode(buf, msg)
+			fmt.Println(msg)
+		}
+
 	}
 }
 
@@ -37,7 +84,8 @@ func create_client(addr string) {
 	for {
 		conn, err := net.Dial("tcp", addr)
 		if err == nil {
-			go handle_client(conn)
+			go send(conn)
+			go recv(conn)
 			return
 		}
 		yklog.Logout("connect to %v error: %v", addr, err)
@@ -49,7 +97,10 @@ func create_client(addr string) {
 }
 
 func main() {
-	create_client("127.0.0.1:6018")
+
+	//p := mq.Consumer{nil, nil, make(chan []byte, 3)}
+	//p.Create(c.AMQP_uri)
+	create_client(cons.TCP_IP)
 
 	// close
 	c := make(chan os.Signal, 1)

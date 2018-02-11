@@ -13,6 +13,7 @@ type Game struct {
 func (yk *Game) Start() {
 	yk.logic = &GamePlus.GamePlus_Logic1{}
 	fmt.Println(yk.logic.About())
+	yk.logic.Init()
 	yk.logic.Run()
 }
 

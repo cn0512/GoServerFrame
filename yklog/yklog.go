@@ -25,12 +25,12 @@ func create(save2file int) (*yklogger, error) {
 		now.Second())
 
 	logger := new(yklogger)
-	file, err := os.Create(path.Join("", filename))
-	if err != nil {
-		return nil, err
-	}
 	logger.sysfile = os.Stdout
 	if save2file != 0 {
+		file, err := os.Create(path.Join("", filename))
+		if err != nil {
+			return nil, err
+		}
 		logger.sysfile = file
 	}
 	logger.syslog = log.New(logger.sysfile, "", log.LstdFlags)

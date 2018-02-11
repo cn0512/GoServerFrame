@@ -4,6 +4,12 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+
+	cons "../../ykconstant"
+)
+
+const (
+	AboutEntity = cons.Entity_Game
 )
 
 func main() {

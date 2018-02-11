@@ -5,9 +5,10 @@ import (
 	"fmt"
 
 	c "./ykconstant"
-	net "./yknet"
+	//net "./yknet"
 	"github.com/golang/protobuf/proto"
 
+	ykmsg "./ykmsg"
 	"./ykprotoco"
 )
 
@@ -16,6 +17,11 @@ var (
 	tcp_ip  = flag.String("ip", "127.0.0.1:6018", "port = ?")
 )
 
+type gobSt struct {
+	Age  int
+	Name string
+}
+
 func main() {
 	flag.Parse()
 	fmt.Println(c.Version)
@@ -23,10 +29,9 @@ func main() {
 	fmt.Println(*version)
 	fmt.Println(*tcp_ip)
 
-	header := net.MsgHeader{1029, 20}
-	headerbuf, headerbuflen := header.Get()
+	header := ykmsg.MsgHeader{1029, 20, 1}
+	headerbuf := header.Get()
 	fmt.Println(headerbuf)
-	fmt.Println(headerbuflen)
 
 	var login YKGameMsg.LoginMsgReq
 	login.Uid = 1000
@@ -47,4 +52,25 @@ func main() {
 	begin.Players[0] = &YKGameMsg.StPlayer{1, cards0}
 
 	fmt.Println(begin)
+
+	/*
+		Gob
+	*/
+	//encode
+	st := gobSt{12, "123"}
+	var ykgob ykmsg.GobMsg
+	bufMsg, err := ykgob.Encode(&st, nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("encode=", bufMsg)
+	//decode
+	var st2 gobSt
+	err = ykgob.Decode(bufMsg, &st2)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("decode=", st2)
 }

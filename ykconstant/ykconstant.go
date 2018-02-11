@@ -5,16 +5,25 @@ import (
 	"encoding/binary"
 )
 
+type UID int32
+type Entity int32
+
 const (
-	Version           = "0.0.1"
-	TCP_IP            = "127.0.0.1:6018"
-	Buf_Size          = 4096
-	Secret_key        = "ykgame" //异或密钥
-	AMQP_uri          = "amqp://guest:guest@localhost:5672"
-	AMQP_exchangeName = "ykgame"
-	AMQP_exchangeType = "direct"
-	AMQP_routingKey   = "ykgame_key"
-	AMQP_reliable     = true
+	Version            = "0.0.1"
+	TCP_IP             = "127.0.0.1:6018"
+	Buf_Size           = 4096
+	Secret_key         = "ykgame" //异或密钥
+	MAX_OL             = 0x0fffff
+	AMQP_uri           = "amqp://guest:guest@localhost:5672"
+	AMQP_exchangeName  = "exc_c2s"
+	AMQP_exchangeName2 = "exc_s2c"
+	AMQP_exchangeType  = "fanout"
+	AMQP_exchangeType2 = "direct"
+	AMQP_routingKey    = "c2s_key"
+	AMQP_queueName     = "c2s_queue"
+	AMQP_routingKey2   = "s2c_key"
+	AMQP_queueName2    = "s2c_queue"
+	AMQP_reliable      = true
 )
 
 //c/s 交互协议ID
@@ -33,12 +42,16 @@ const (
 	R_MSGID_GAMEEND
 )
 
-//服务器角色
+//角色
 const (
-	Role_Login = iota
-	Role_Game
-	Role_DB
-	Role_Lobby
+	Entity_None = iota
+	Entity_Client
+	Entity_Web
+	Entity_Any   = 10
+	Entity_Login = 100
+	Entity_Game  = 200
+	Entity_DB    = 300
+	Entity_Lobby = 400
 )
 
 //整形转换成字节
@@ -54,12 +67,4 @@ func BytesToInt(b []byte) int32 {
 	var tmp int32
 	binary.Read(bytesBuffer, binary.BigEndian, &tmp)
 	return tmp
-}
-
-type Role int
-
-//router 核心
-type MsgRouter struct {
-	src Role
-	dst Role
 }
