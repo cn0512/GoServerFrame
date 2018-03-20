@@ -1,3 +1,3 @@
-del /s *.log *.exe;
+del /s *.exe;
 
 pause
