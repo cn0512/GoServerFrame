@@ -1,18 +1,19 @@
 package main
 
-import(
-	mq "MSvrs/Core/MQ/Redis"
-	_ "strconv"
-	"golang.org/x/fmt"
+import (
+	"bufio"
 	"os"
 	"os/signal"
-	"bufio"
+	_ "strconv"
+
+	mq "github.com/cn0512/GoServerFrame/Core/MQ/Redis"
+	"golang.org/x/fmt"
 )
 
-var pub_topic="MSvrs"
+var pub_topic = "MSvrs"
 
-func main(){
-	pub:=mq.NewPub()
+func main() {
+	pub := mq.NewPub()
 	defer pub.Shutdown()
 	//pub.Publish(pub_topic,[]byte(strconv.Itoa(1000)))
 
@@ -23,7 +24,7 @@ func main(){
 		if line == "exit" {
 			os.Exit(0)
 		}
-		pub.Publish(pub_topic,[]byte(string(line)))
+		pub.Publish(pub_topic, []byte(string(line)))
 	}
 	//ctrl+C
 	c := make(chan os.Signal, 1)

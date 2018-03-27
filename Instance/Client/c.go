@@ -1,12 +1,13 @@
 package main
 
 import (
-	RPC "MSvrs/Core/RPC"
 	"fmt"
 	"log"
 	"net/rpc/jsonrpc"
 
-	cfg "MSvrs/Config"
+	RPC "github.com/cn0512/GoServerFrame/Core/RPC"
+
+	cfg "github.com/cn0512/GoServerFrame/Config"
 )
 
 func main() {

@@ -1,9 +1,10 @@
 package main
 
 import (
-	RPC "MSvrs/Core/RPC"
 	"fmt"
-	ykmq "MSvrs/Core/MQ/YKMQ"
+
+	ykmq "github.com/cn0512/GoServerFrame/Core/MQ/YKMQ"
+	RPC "github.com/cn0512/GoServerFrame/Core/RPC"
 )
 
 type MsgCreateUserRep struct {

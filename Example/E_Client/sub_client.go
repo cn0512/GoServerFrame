@@ -1,18 +1,19 @@
 package main
 
 import (
-	mq "MSvrs/Core/MQ/Redis"
 	"fmt"
 	"os"
 	"os/signal"
+
+	mq "github.com/cn0512/GoServerFrame/Core/MQ/Redis"
 )
 
-var sub_topic="MSvrs"
+var sub_topic = "MSvrs"
 
-func main(){
-	sub,err:=mq.NewSub(sub_topic)
+func main() {
+	sub, err := mq.NewSub(sub_topic)
 	defer sub.Shutdown()
-	if err!=nil{
+	if err != nil {
 		fmt.Println(err)
 		return
 	}

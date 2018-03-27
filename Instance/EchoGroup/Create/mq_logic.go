@@ -1,8 +1,9 @@
 package main
 
 import (
-	RPC "MSvrs/Core/RPC"
 	"fmt"
+
+	RPC "github.com/cn0512/GoServerFrame/Core/RPC"
 )
 
 type MsgCreateUserReq struct {

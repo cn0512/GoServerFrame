@@ -1,8 +1,9 @@
 package Config
 
 import (
-	"MSvrs/Core/Utils"
 	"strconv"
+
+	"github.com/cn0512/GoServerFrame/Core/Utils"
 
 	"github.com/stathat/go"
 )

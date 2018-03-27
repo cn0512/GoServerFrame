@@ -6,12 +6,13 @@ package main
 */
 
 import (
-	"MSvrs/Config"
-	redis "MSvrs/Core/DB/Redis"
-	mq "MSvrs/Core/MQ/Redis"
-	svrCfg "MSvrs/Core/Svrs"
-	"MSvrs/Core/Utils"
 	"fmt"
+
+	"github.com/cn0512/GoServerFrame/Config"
+	redis "github.com/cn0512/GoServerFrame/Core/DB/Redis"
+	mq "github.com/cn0512/GoServerFrame/Core/MQ/Redis"
+	svrCfg "github.com/cn0512/GoServerFrame/Core/Svrs"
+	"github.com/cn0512/GoServerFrame/Core/Utils"
 
 	"os"
 	"os/signal"
@@ -40,20 +41,18 @@ func (m *Msg) Call(msg string) {
 }
 
 var redis_cfg = redis.Config{
-	Server:"localhost:6379",
-	MaxIdle:1,
-	MaxActive:0,
-
-
+	Server:    "localhost:6379",
+	MaxIdle:   1,
+	MaxActive: 0,
 }
 
 func Save2Redis(item svrCfg.SvrItem) {
-	pool:=redis.NewRConnectionPool(redis_cfg)
-	con:=pool.Get()
-	if item.State{
-		redis.HSet(&con,"reg:server",item.Uuid,item)
-	}else{
-		redis.HDel(&con,"reg:server",item.Uuid)
+	pool := redis.NewRConnectionPool(redis_cfg)
+	con := pool.Get()
+	if item.State {
+		redis.HSet(&con, "reg:server", item.Uuid, item)
+	} else {
+		redis.HDel(&con, "reg:server", item.Uuid)
 	}
 
 }

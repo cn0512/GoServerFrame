@@ -1,13 +1,14 @@
 package main
 
 import (
-	_ "MSvrs/Config"
-	"MSvrs/Core/DB/Mysql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/go-xorm/xorm"
 	_ "os"
 	"runtime"
+
+	_ "github.com/cn0512/GoServerFrame/Config"
+	"github.com/cn0512/GoServerFrame/Core/DB/Mysql"
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/go-xorm/xorm"
 )
 
 type User struct {
@@ -79,7 +80,7 @@ func test(engine *xorm.Engine) {
 
 func main() {
 	runtime.GOMAXPROCS(2)
-	engine,err := Mysql.GetMysql()
+	engine, err := Mysql.GetMysql()
 	if err != nil {
 		return
 	}

@@ -1,7 +1,7 @@
 package main
 
 import (
-	RPC "MSvrs/Core/RPC"
+	RPC "github.com/cn0512/GoServerFrame/Core/RPC"
 )
 
 func CheckDatabase(u RPC.CreateUserReq) RPC.CreateUserRep {

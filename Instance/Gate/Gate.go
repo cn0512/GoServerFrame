@@ -6,16 +6,17 @@ package main
 */
 
 import (
-	"MSvrs/Config"
-	mq "MSvrs/Core/MQ/Redis"
-	"MSvrs/Core/Utils"
 	"fmt"
-	ps "github.com/aalness/go-redis-pubsub"
 	"net"
 	"net/rpc"
 	"net/rpc/jsonrpc"
 	"os"
 	"os/signal"
+
+	ps "github.com/aalness/go-redis-pubsub"
+	"github.com/cn0512/GoServerFrame/Config"
+	mq "github.com/cn0512/GoServerFrame/Core/MQ/Redis"
+	"github.com/cn0512/GoServerFrame/Core/Utils"
 )
 
 func chkError(err error) {

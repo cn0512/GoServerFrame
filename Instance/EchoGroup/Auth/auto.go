@@ -5,19 +5,19 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"MSvrs/Config"
 
+	"github.com/cn0512/GoServerFrame/Config"
+
+	"github.com/dgrijalva/jwt-go"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/dgrijalva/jwt-go"
 )
 
-type User struct{
-
+type User struct {
 }
 
 func Auth(c echo.Context) error {
-	u:=&User{}
+	u := &User{}
 	return c.JSON(http.StatusOK, u)
 }
 func main() {
@@ -28,7 +28,7 @@ func main() {
 	e.Use(middleware.Recover())
 
 	// Routes
-	r:=e.Group("/Auth")
+	r := e.Group("/Auth")
 	r.Use(middleware.JWTWithConfig(middleware.JWTConfig{
 		Skipper:       func(echo.Context) bool { return false },
 		SigningMethod: "RS256",
@@ -36,7 +36,7 @@ func main() {
 		TokenLookup:   "header:" + echo.HeaderAuthorization,
 		SigningKey:    pubKey,
 	}))
-	r.GET("/Token",Auth)
+	r.GET("/Token", Auth)
 	//save routers to file
 	data, err := json.MarshalIndent(e.Routes(), "", "  ")
 	if err != nil {

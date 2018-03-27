@@ -5,8 +5,8 @@ package Mysql
 */
 
 import (
-	"MSvrs/Config"
-	"MSvrs/Core/Utils"
+	"github.com/cn0512/GoServerFrame/Config"
+	"github.com/cn0512/GoServerFrame/Core/Utils"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"

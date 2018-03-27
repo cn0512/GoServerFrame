@@ -5,7 +5,7 @@ package Mysqlx
 */
 
 import (
-	cfg "MSvrs/Config"
+	cfg "github.com/cn0512/GoServerFrame/Config"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"

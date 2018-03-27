@@ -10,21 +10,22 @@ package main
 */
 
 import (
-	"MSvrs/Config"
-	"MSvrs/Core/DB/Mysql"
-	redis "MSvrs/Core/DB/Redis"
-	mq "MSvrs/Core/MQ/Redis"
-	ps "github.com/aalness/go-redis-pubsub"
-	"MSvrs/Core/Utils"
 	"fmt"
 	"os"
 	"os/signal"
 	_ "runtime"
 
+	ps "github.com/aalness/go-redis-pubsub"
+	"github.com/cn0512/GoServerFrame/Config"
+	"github.com/cn0512/GoServerFrame/Core/DB/Mysql"
+	redis "github.com/cn0512/GoServerFrame/Core/DB/Redis"
+	mq "github.com/cn0512/GoServerFrame/Core/MQ/Redis"
+	"github.com/cn0512/GoServerFrame/Core/Utils"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 
-	svrCfg "MSvrs/Core/Svrs"
+	svrCfg "github.com/cn0512/GoServerFrame/Core/Svrs"
 )
 
 type User struct {
@@ -110,29 +111,31 @@ var redis_cfg = redis.Config{
 	MaxActive: 0,
 }
 
-func RegLocal(reg bool){
+func RegLocal(reg bool) {
 	pool := redis.NewRConnectionPool(redis_cfg)
 	con := pool.Get()
-	var item =svrCfg.SvrItem{
-		SvrType:"Storage",
-		State:true,
-		Uuid:"123456798",
+	var item = svrCfg.SvrItem{
+		SvrType: "Storage",
+		State:   true,
+		Uuid:    "123456798",
 	}
 	if reg {
 		//redis.Set(&con, "reg:svr:"+item.SvrType, item)
-		redis.HSet(&con,"reg:local",item.Uuid,item)
+		redis.HSet(&con, "reg:local", item.Uuid, item)
 	} else {
-		redis.HDel(&con, "reg:local",item.Uuid)
+		redis.HDel(&con, "reg:local", item.Uuid)
 	}
 }
 
-func FInit(){
+func FInit() {
 	//注销
 	svrItem.Unreg()
 	pub.Publish(Config.Topic_Svrs_Unreg, svrItem.Encode())
 	RegLocal(false)
 }
+
 var pub ps.Publisher
+
 func main() {
 	//【1】初始化Mysql
 	fmt.Println("Storage is running")

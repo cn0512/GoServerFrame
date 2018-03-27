@@ -7,8 +7,8 @@ import (
 	"time"
 
 	ps "github.com/aalness/go-redis-pubsub"
+	"github.com/cn0512/GoServerFrame/Config"
 	"github.com/garyburd/redigo/redis"
-	"MSvrs/Config"
 )
 
 type testPubHandler struct {

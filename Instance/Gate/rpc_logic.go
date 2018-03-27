@@ -1,15 +1,17 @@
 package main
 
 import (
-	cfg "MSvrs/Config"
-	//mysqlx "MSvrs/Core/DB/Mysqlx"
-	RPC "MSvrs/Core/RPC"
+	cfg "github.com/cn0512/GoServerFrame/Config"
+	//mysqlx "github.com/cn0512/GoServerFrame/Core/DB/Mysqlx"
 	"context"
 	"fmt"
+
+	RPC "github.com/cn0512/GoServerFrame/Core/RPC"
 	//"github.com/jmoiron/sqlx"
-	ykmq "MSvrs/Core/MQ/YKMQ"
-	tl "MSvrs/Core/Utils"
 	"time"
+
+	ykmq "github.com/cn0512/GoServerFrame/Core/MQ/YKMQ"
+	tl "github.com/cn0512/GoServerFrame/Core/Utils"
 )
 
 type Rpc_logic struct {

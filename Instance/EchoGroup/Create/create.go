@@ -6,15 +6,16 @@ package main
 */
 
 import (
-	mq "MSvrs/Core/MQ/Redis"
-	RPC "MSvrs/Core/RPC"
+	mq "github.com/cn0512/GoServerFrame/Core/MQ/Redis"
+	RPC "github.com/cn0512/GoServerFrame/Core/RPC"
 
 	ps "github.com/aalness/go-redis-pubsub"
 
-	"MSvrs/Config"
-	"MSvrs/Core/Utils"
 	"os"
 	"os/signal"
+
+	"github.com/cn0512/GoServerFrame/Config"
+	"github.com/cn0512/GoServerFrame/Core/Utils"
 )
 
 var pub ps.Publisher

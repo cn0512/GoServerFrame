@@ -5,9 +5,10 @@ package Svrs
 */
 
 import (
-	tl "MSvrs/Core/Utils"
 	"encoding/json"
 	"fmt"
+
+	tl "github.com/cn0512/GoServerFrame/Core/Utils"
 )
 
 type IReg interface {
@@ -59,7 +60,7 @@ func (svr *SvrItem) Encode() []byte {
 	return buf
 }
 
-func (svr *SvrItem) Decode(buf []byte)error  {
+func (svr *SvrItem) Decode(buf []byte) error {
 	err := json.Unmarshal(buf, svr)
 	if err != nil {
 		tl.Logout("%v", err)

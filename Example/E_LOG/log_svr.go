@@ -1,9 +1,9 @@
 package main
 
-import(
-	"MSvrs/Core/Utils"
+import (
+	"github.com/cn0512/GoServerFrame/Core/Utils"
 )
 
-func main(){
-	Utils.Logout("%d,%s\n",1,"yk")
+func main() {
+	Utils.Logout("%d,%s\n", 1, "yk")
 }

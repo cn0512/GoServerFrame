@@ -1,9 +1,10 @@
 package RPC
 
 import (
-	tl "MSvrs/Core/Utils"
 	"encoding/json"
 	"fmt"
+
+	tl "github.com/cn0512/GoServerFrame/Core/Utils"
 )
 
 type CreateUserReq struct {

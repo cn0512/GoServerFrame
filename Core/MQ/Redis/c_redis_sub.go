@@ -5,16 +5,18 @@ import (
 	"sync"
 	"time"
 
-	"MSvrs/Config"
-	"MSvrs/Core/Utils"
 	_ "fmt"
+
 	ps "github.com/aalness/go-redis-pubsub"
+	"github.com/cn0512/GoServerFrame/Config"
+	"github.com/cn0512/GoServerFrame/Core/Utils"
 	"github.com/garyburd/redigo/redis"
 )
 
-type Callback interface{
+type Callback interface {
 	Call(msg string)
 }
+
 var cb Callback
 
 type testSubHandler struct {
@@ -131,12 +133,12 @@ func newSubHandle() *testSubHandler {
 	}
 }
 
-func NewSub(topic string,sub_cb Callback) (ps.Subscriber, error) {
+func NewSub(topic string, sub_cb Callback) (ps.Subscriber, error) {
 	h := newSubHandle()
 	sub := ps.NewRedisSubscriber(Config.Redis_addr, h, 0)
 	//defer sub.Shutdown()
 	if err := <-sub.Subscribe(topic); err != nil {
-		Utils.Logout("%v\n",err)
+		Utils.Logout("%v\n", err)
 		return nil, err
 	}
 	cb = sub_cb
