@@ -6,5 +6,5 @@
 3, db storage: redis,Mysql
 4, 带宽成本控制：
 	Gate配置外网地址；redis／Svrs配置内网地址。
-5，QPS：
-6，TPS：	
+5，lua：use gopher-lua as lua vm
+		bin/game.lua 简易联网游戏的脚本。
